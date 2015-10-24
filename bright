@@ -1,0 +1,50 @@
+#! /bin/bash
+
+# max_brightness=$(cat /sys/class/backlight/intel_backlight/max_brightness)
+# if [ $# -eq 0 ]; then
+# 		value=$(cat $file_brightness)
+# else
+# 	value=$1
+# 	regex='^[0-9]+$'
+# 	if ! [[ $value =~ $regex ]] ; then
+# 	   echo "error: Not a number" >&2; exit 1
+# 	fi
+# fi
+#
+# if [ $value -gt $max_brightness ]; then
+# 	echo $max_brightness | tee $file_brightness
+# else
+# 	echo $value | tee $file_brightness
+# fi
+
+# /usr/bin/bright and execute bright inc|dec to change bright screen.
+
+# Nota: para poder ejecutar este comando luego de iniciar el sistema, deberá crearse un script que le dé permisos
+# al archivo brightness (chown root:$USER y chmod 664) y agregue mi usuario al group users al iniciar el SO.
+# Dicho script debe ser agregado a crontab con el comando crontab -e (como superusuario).
+# Si el script de start up se llama .bright.sh debe agregarse la siguiente línea en crontab:
+# @reboot /$HOME/.bright.sh.
+# Y los permisos que debe tener son 755. De esta forma, podrá ejecutarse este script sin ningún 
+# problema de permisos.
+
+file_brightness='/sys/class/backlight/intel_backlight/brightness'
+current_brightness=$(cat $file_brightness)
+max_brightness=$(cat /sys/class/backlight/intel_backlight/max_brightness)
+min_brightness=750
+delta=250
+
+if [ $1 == 'inc' ]; then
+	new_brightness=$(($current_brightness + $delta))
+	if [ $new_brightness -gt $max_brightness ]; then
+		exit 0
+	fi
+
+elif [ $1 == 'dec' ]; then
+	new_brightness=$(($current_brightness - $delta))
+	if [ $new_brightness -lt $min_brightness ]; then
+		exit 0
+	fi
+fi
+
+echo $new_brightness | tee $file_brightness
+exit 0
