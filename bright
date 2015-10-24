@@ -19,14 +19,6 @@
 
 # /usr/bin/bright and execute bright inc|dec to change bright screen.
 
-# Nota: para poder ejecutar este comando luego de iniciar el sistema, deberá crearse un script que le dé permisos
-# al archivo brightness (chown root:$USER y chmod 664) y agregue mi usuario al group users al iniciar el SO.
-# Dicho script debe ser agregado a crontab con el comando crontab -e (como superusuario).
-# Si el script de start up se llama .bright.sh debe agregarse la siguiente línea en crontab:
-# @reboot /$HOME/.bright.sh.
-# Y los permisos que debe tener son 755. De esta forma, podrá ejecutarse este script sin ningún 
-# problema de permisos.
-
 file_brightness='/sys/class/backlight/intel_backlight/brightness'
 current_brightness=$(cat $file_brightness)
 max_brightness=$(cat /sys/class/backlight/intel_backlight/max_brightness)
