@@ -22,7 +22,7 @@
 file_brightness='/sys/class/backlight/intel_backlight/brightness'
 current_brightness=$(cat $file_brightness)
 max_brightness=$(cat /sys/class/backlight/intel_backlight/max_brightness)
-min_brightness=750
+min_brightness=500
 delta=250
 
 if [ $1 == 'inc' ]; then
